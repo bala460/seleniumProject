@@ -78,5 +78,5 @@ mvn clean test -DsuiteXmlFile=testng.xml
 ## 👨‍💻 Author
 
 - **Name:** Bala Gopal Pasupuleti
-- **Email:** balagopal460@gmail.com
+- **Email:** balagopal563@gmail.com
 - **SDET / Automation Engineer**
