@@ -12,20 +12,20 @@ public class TestCase extends BaseTestClass {
     public void test_01(){
         HomePage homePage = new HomePage(driver);
         homePage.clickRadioButtons();
-        ExtentTestManager.log("Radio Button's are Clicked");
+        ExtentTestManager.getInstance().log("Radio Button's are Clicked");
     }
 
     @Test(testName = "TC_02", description = "To verify the Iframe in the Web Page")
     public void test_02(){
         HomePage homePage = new HomePage(driver);
         homePage.performActionOnIframe();
-        ExtentTestManager.log("Iframe verification");
+        ExtentTestManager.getInstance().log("Iframe verification");
     }
 
     @Test(testName = "TC_03", description = "To verify the Windows Handle")
     public void test_03(){
         HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.verifyWindowsHandle());
-        ExtentTestManager.log("Windows Handle is verified");
+        ExtentTestManager.getInstance().log("Windows Handle is verified");
     }
 }

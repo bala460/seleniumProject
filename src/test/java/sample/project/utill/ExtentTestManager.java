@@ -9,16 +9,20 @@ public class ExtentTestManager {
     private static final ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
     private static final ExtentReports extent = ExtentManager.getInstance();
 
-    public synchronized static ExtentTest getTest() {
+    public static ExtentTestManager getInstance() {
+        return new ExtentTestManager();
+    }
+
+    public synchronized ExtentTest getTest() {
         return extentTest.get();
     }
 
-    public synchronized static void flush() {
+    public synchronized void flush() {
         extent.flush();
     }
 
 
-    public synchronized static ExtentTest createTest(String name, String description, String category) {
+    public synchronized ExtentTest createTest(String name, String description, String category) {
         ExtentTest test = extent.createTest(name, description);
 
         if (category != null && !category.isEmpty())
@@ -29,35 +33,35 @@ public class ExtentTestManager {
         return extentTest.get();
     }
 
-    public synchronized static ExtentTest createTest(String name, String description) {
-        return createTest(name, description, null);
+    public synchronized ExtentTest createTest(String name, String description) {
+        return ExtentTestManager.this.createTest(name, description, null);
     }
 
-    public synchronized static ExtentTest createTest(String name) {
-        return createTest(name, null);
+    public synchronized ExtentTest createTest(String name) {
+        return ExtentTestManager.this.createTest(name, null);
     }
 
-    public synchronized static void log(String message) {
-        getTest().info(message);
+    public synchronized void log(String message) {
+        ExtentTestManager.this.getTest().info(message);
     }
 
-    public synchronized static void log(Status log, String message) {
-        getTest().log(log, message);
+    public synchronized void log(Status log, String message) {
+        ExtentTestManager.this.getTest().log(log, message);
     }
 
-    public synchronized static void pass(String message) {
-        getTest().pass(message);
+    public synchronized void pass(String message) {
+        ExtentTestManager.this.getTest().pass(message);
     }
 
-    public synchronized static void fail(String message) {
-        getTest().fail(message);
+    public synchronized void fail(String message) {
+        ExtentTestManager.this.getTest().fail(message);
     }
 
-    public synchronized static void logWithScreenShot(Status status, String message, String path) {
+    public synchronized void logWithScreenShot(Status status, String message, String path) {
         try {
-            getTest().log(status, message).addScreenCaptureFromPath(path, "title");
+            ExtentTestManager.this.getTest().log(status, message).addScreenCaptureFromPath(path, "title");
         } catch (Exception e) {
-            getTest().log(status, e.getLocalizedMessage());
+            ExtentTestManager.this.getTest().log(status, e.getLocalizedMessage());
         }
     }
 }

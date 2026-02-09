@@ -34,8 +34,8 @@ public class BaseTestClass {
     @BeforeMethod
     public void setUp(Method method) {
         driver = Driver.getInstance();
-        ExtentTestManager.createTest(method.getAnnotation(Test.class).testName(), method.getAnnotation(Test.class).description());
-        ExtentTestManager.log("Starting test " + method.getAnnotation(Test.class).description());
+        ExtentTestManager.getInstance().createTest(method.getAnnotation(Test.class).testName(), method.getAnnotation(Test.class).description());
+        ExtentTestManager.getInstance().log("Starting test " + method.getAnnotation(Test.class).description());
         driver.get("https://rahulshettyacademy.com/AutomationPractice/");
         driver.manage().window().fullscreen();
     }
@@ -45,11 +45,11 @@ public class BaseTestClass {
         try {
             if (result.getStatus() == ITestResult.FAILURE) {
                 captureScreenshot();
-                ExtentTestManager.fail(result.getMethod().getMethodName());
+                ExtentTestManager.getInstance().fail(result.getMethod().getMethodName());
             } else if (result.getStatus() == ITestResult.SUCCESS) {
-                ExtentTestManager.pass(result.getMethod().getMethodName());
+                ExtentTestManager.getInstance().pass(result.getMethod().getMethodName());
             } else {
-                ExtentTestManager.log(Status.SKIP, result.getMethod().getMethodName());
+                ExtentTestManager.getInstance().log(Status.SKIP, result.getMethod().getMethodName());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -60,21 +60,21 @@ public class BaseTestClass {
 
     @AfterSuite
     public void tearDown() {
-        ExtentTestManager.flush();
+        ExtentTestManager.getInstance().flush();
     }
 
     public void captureScreenshot() {
         try {
-            ExtentTestManager.log("Taking screenshot for failed assert");
+            ExtentTestManager.getInstance().log("Taking screenshot for failed assert");
             String screenshotPath = System.getProperty("user.dir") + "/test-output/screenshots";
             File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
             String screenshotName = "screenshot_" + new Random().nextInt(999) + ".png";
             screenshotPath = screenshotPath + File.separator + screenshotName;
             Files.copy(screenshot, new File(screenshotPath));
-            ExtentTestManager.logWithScreenShot(Status.INFO, "Failure in Test Case", screenshotPath);
+            ExtentTestManager.getInstance().logWithScreenShot(Status.INFO, "Failure in Test Case", screenshotPath);
         } catch (IOException e) {
-            ExtentTestManager.log(Status.WARNING, e.getLocalizedMessage());
+            ExtentTestManager.getInstance().log(Status.WARNING, e.getLocalizedMessage());
         }
 
     }
