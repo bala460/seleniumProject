@@ -1,4 +1,4 @@
-package sample.project.utill;
+package utill;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;

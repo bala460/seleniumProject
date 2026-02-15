@@ -3,8 +3,8 @@ package sample.project.test;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import sample.project.BaseTestClass;
-import sample.project.pages.HomePage;
-import sample.project.utill.ExtentTestManager;
+import pages.HomePage;
+import utill.ExtentTestManager;
 
 public class TestCase extends BaseTestClass {
 

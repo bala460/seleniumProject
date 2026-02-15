@@ -1,4 +1,4 @@
-package sample.project.utill;
+package utill;
 
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebDriver;
