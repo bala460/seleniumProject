@@ -18,8 +18,6 @@ import java.util.Random;
 
 public class BaseTestClass {
 
-    public WebDriver driver;
-
     @BeforeSuite
     public void startReporter() {
         if (ExtentManager.getInstance() == null) {
@@ -29,11 +27,11 @@ public class BaseTestClass {
 
     @BeforeMethod
     public void setUp(Method method) {
-        driver = Driver.getInstance();
+        Driver.setDriver("chrome");
         ExtentTestManager.getInstance().createTest(method.getAnnotation(Test.class).testName(), method.getAnnotation(Test.class).description());
         ExtentTestManager.getInstance().log("Starting test " + method.getAnnotation(Test.class).description());
-        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
-        driver.manage().window().fullscreen();
+        Driver.getDriver().get("https://rahulshettyacademy.com/AutomationPractice/");
+        Driver.getDriver().manage().window().fullscreen();
     }
 
     @AfterMethod
@@ -50,7 +48,7 @@ public class BaseTestClass {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            Driver.quit();
+            Driver.quitDriver();
         }
     }
 
@@ -63,7 +61,7 @@ public class BaseTestClass {
         try {
             ExtentTestManager.getInstance().log("Taking screenshot for failed assert");
             String screenshotPath = System.getProperty("user.dir") + "/test-output/screenshots";
-            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
 
             String screenshotName = "screenshot_" + new Random().nextInt(999) + ".png";
             screenshotPath = screenshotPath + File.separator + screenshotName;

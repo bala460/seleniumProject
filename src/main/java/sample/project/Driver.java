@@ -3,31 +3,40 @@ package sample.project;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Driver {
     // ThreadLocal used to manage the driver
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    // Private constructor to prevent the creation of new instances of Driver
-    private Driver(){}
-
-
-
-    // Public method to access the driver instance (uses lazy instantiation)
-    public static WebDriver getInstance() {
-        WebDriverManager.chromedriver().setup();
-        if (driver.get() == null) {
-            driver.set(new ChromeDriver());
-        }
+    public static WebDriver getDriver() {
         return driver.get();
     }
 
-    /*
-    Public method to quit the driver and
-    remove the current thread's value for this thread-local variable
-     */
-    public static void quit() {
-        driver.get().quit();
-        driver.remove();
+    public static void setDriver(String browserType) {
+        WebDriver webDriver = null;
+        switch (browserType) {
+            case "chrome":
+                WebDriverManager.chromedriver().setup();
+                webDriver = new ChromeDriver();
+                break;
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                webDriver = new FirefoxDriver();
+                break;
+            default:
+                WebDriverManager.chromedriver().setup();
+                webDriver = new ChromeDriver();
+                break;
+        }
+        driver.set(webDriver);
+    }
+
+    public static void quitDriver() {
+        WebDriver webDriver = driver.get();
+        if (webDriver != null) {
+            webDriver.quit();
+            driver.remove(); // Essential to avoid memory leaks
+        }
     }
 }
